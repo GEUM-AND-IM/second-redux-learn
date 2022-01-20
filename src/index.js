@@ -5,8 +5,9 @@ import "./exercise";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import rootRuducer from "./modules";
+import { composeWithDevTools } from "redux-devtools-extension";
 
-const store = createStore(rootRuducer);
+const store = createStore(rootRuducer, composeWithDevTools());
 
 ReactDOM.render(
   <React.StrictMode>
