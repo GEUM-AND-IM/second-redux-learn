@@ -1,4 +1,6 @@
-const TodoItem = ({ todo, onToggle }) => {
+import React from "react";
+
+const TodoItem = React.memo(function TodoItem({ todo, onToggle }) {
   return (
     <li
       style={{ textDecoration: todo.done ? "line-through" : "none" }}
@@ -7,6 +9,6 @@ const TodoItem = ({ todo, onToggle }) => {
       {todo.text}
     </li>
   );
-};
+});
 
 export default TodoItem;

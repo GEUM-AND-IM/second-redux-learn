@@ -1,7 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import TodoList from "./TodoList";
 
-const Todos = ({ todos, onCreate, onToggle }) => {
+const Todos = React.memo(function Todos({ todos, onCreate, onToggle }) {
   const [text, setText] = useState("");
   const onChange = (e) => setText(e.target.value);
   const onSubmit = (e) => {
@@ -23,6 +23,6 @@ const Todos = ({ todos, onCreate, onToggle }) => {
       <TodoList todos={todos} onToggle={onToggle} />
     </div>
   );
-};
+});
 
-export default Todos;
+export default React.memo(Todos);
