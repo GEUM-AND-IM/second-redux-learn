@@ -1,13 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
-import "./exercise";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import rootRuducer from "./modules";
-import { composeWithDevTools } from "redux-devtools-extension";
+import App from "./App";
+import rootRuducer from "./modules/index";
 
-const store = createStore(rootRuducer, composeWithDevTools());
+const store = createStore(rootRuducer);
 
 ReactDOM.render(
   <React.StrictMode>
