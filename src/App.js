@@ -1,4 +1,4 @@
-import CounterContainer from "./containers/CounterContainer";
+import CounterContainer from "./Containers/CounterContainer";
 
 function App() {
   return (
