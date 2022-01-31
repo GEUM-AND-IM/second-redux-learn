@@ -6,9 +6,9 @@ export const createPromiseThunk = (type, promiseCreator) => {
 
     try {
       const payload = await promiseCreator(param);
-      dispatch({ SUCCESS, payload });
+      dispatch({ type: SUCCESS, payload });
     } catch (e) {
-      dispatch({ ERROR, payload: e, error: true });
+      dispatch({ type: ERROR, payload: e, error: true });
     }
   };
 };
