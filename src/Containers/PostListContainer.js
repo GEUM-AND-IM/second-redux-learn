@@ -15,7 +15,7 @@ const PostListContainer = () => {
   return (
     <div>
       {loading ? (
-        <>{error ? "에러 발생" : "로딩중"}</>
+        <>{error ? "에러 발생" : <>{!data && "로딩중"}</>}</>
       ) : (
         <> {data && <PostList posts={data} />}</>
       )}
