@@ -6,7 +6,7 @@ import {
 } from "../Lib/asyncUtils";
 
 const GET_POSTS = "GET_POSTS";
-const GET_POSTS_SUCCESS = "GET_POSTS_SUCCESS ";
+const GET_POSTS_SUCCESS = "GET_POSTS_SUCCESS";
 const GET_POSTS_ERROR = "GET_POSTS_ERROR";
 
 const GET_POST = "GET_POST";

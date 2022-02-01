@@ -2,8 +2,7 @@ export const createPromiseThunk = (type, promiseCreator) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
 
   return (param) => async (dispatch) => {
-    dispatch({ type });
-
+    dispatch({ type, param });
     try {
       const payload = await promiseCreator(param);
       dispatch({ type: SUCCESS, payload });
@@ -22,19 +21,16 @@ export const handleAsyncActions = (type, key) => {
           ...state,
           [key]: reducerUtils.loading(),
         };
-
       case SUCCESS:
         return {
           ...state,
           [key]: reducerUtils.success(action.payload),
         };
-
       case ERROR:
         return {
           ...state,
           [key]: reducerUtils.error(action.payload),
         };
-
       default:
         return state;
     }
@@ -55,8 +51,8 @@ export const reducerUtils = {
   }),
 
   success: (data) => ({
-    data,
     loading: false,
+    data,
     error: null,
   }),
 
