@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Post from "../Components/Post";
 import { reducerUtils } from "../Lib/asyncUtils";
-import { clearPost, getPost } from "../modules/posts";
+import { clearPost, getPost, goToHome } from "../modules/posts";
 
 const PostContainer = ({ postId }) => {
   const { loading, data, error } = useSelector(
@@ -14,14 +14,21 @@ const PostContainer = ({ postId }) => {
   useEffect(() => {
     if (data) return;
     dispatch(getPost(postId));
-  }, [postId, dispatch]);
+  }, [postId, dispatch, data]);
 
   return (
     <>
       {loading ? (
         <>{error ? "에러가 발생 했습니다" : <>{!data && "로딩중"}</>}</>
       ) : (
-        <>{data && <Post post={data} />}</>
+        <>
+          {data && (
+            <>
+              <button onClick={() => dispatch(goToHome())}>홈으로 이동</button>
+              <Post post={data} />
+            </>
+          )}
+        </>
       )}
     </>
   );
