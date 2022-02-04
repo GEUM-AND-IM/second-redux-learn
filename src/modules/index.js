@@ -1,10 +1,15 @@
 import { combineReducers } from "redux";
-import counter from "./counter";
+import { all } from "redux-saga/effects";
+import counter, { counterSaga } from "./counter";
 import posts from "./posts";
 
 const rootRuducer = combineReducers({
   counter,
   posts,
 });
+
+export function* rootSaga() {
+  yield all([counterSaga()]);
+}
 
 export default rootRuducer;

@@ -3,24 +3,29 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import App from "./App";
-import rootRuducer from "./modules/index";
+import rootRuducer, { rootSaga } from "./modules/index";
 import { composeWithDevTools } from "redux-devtools-extension";
 import logger from "redux-logger";
 import ReduxThunk from "redux-thunk";
 import { Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import createSagaMiddleware from "@redux-saga/core";
 
 const customHistory = createBrowserHistory();
+const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   rootRuducer,
   composeWithDevTools(
     applyMiddleware(
       ReduxThunk.withExtraArgument({ history: customHistory }),
+      sagaMiddleware,
       logger
     )
   )
 );
+
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <React.StrictMode>
