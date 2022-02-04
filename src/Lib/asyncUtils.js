@@ -1,37 +1,66 @@
-export const createPromiseThunk = (type, promiseCreator) => {
+import { call, put } from "redux-saga/effects";
+
+// export const createPromiseThunk = (type, promiseCreator) => {
+//   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+
+//   return (param) => async (dispatch) => {
+//     dispatch({ type, param });
+//     try {
+//       const payload = await promiseCreator(param);
+//       dispatch({ type: SUCCESS, payload });
+//     } catch (e) {
+//       dispatch({ type: ERROR, payload: e, error: true });
+//     }
+//   };
+// };
+
+export const createPromiseSaga = (type, promiseCreator) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
 
-  return (param) => async (dispatch) => {
-    dispatch({ type, param });
+  return function* saga(action) {
     try {
-      const payload = await promiseCreator(param);
-      dispatch({ type: SUCCESS, payload });
+      const result = yield call(promiseCreator, action.payload);
+      yield put({ type: SUCCESS, payload: result });
     } catch (e) {
-      dispatch({ type: ERROR, payload: e, error: true });
+      yield put({ ERROR, payload: e, error: true });
     }
   };
 };
 
-const defaultIdSelector = (param) => param;
-
-export const createPromiseThunkById = (
-  type,
-  promiseCreator,
-  idSelector = defaultIdSelector
-) => {
+export const createPromiseSagaById = (type, promiseCreator) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
 
-  return (param) => async (dispatch) => {
-    const id = idSelector(param);
-    dispatch({ type, meta: id });
+  return function* saga(action) {
+    const id = action.meta;
     try {
-      const payload = await promiseCreator(param);
-      dispatch({ type: SUCCESS, payload, meta: id });
+      const result = yield call(promiseCreator, action.payload);
+      yield put({ type: SUCCESS, payload: result, meta: id });
     } catch (e) {
-      dispatch({ type: ERROR, payload: e, error: true, meta: id });
+      yield put({ ERROR, payload: e, error: true, meta: id });
     }
   };
 };
+
+// const defaultIdSelector = (param) => param;
+
+// export const createPromiseThunkById = (
+//   type,
+//   promiseCreator,
+//   idSelector = defaultIdSelector
+// ) => {
+//   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+
+//   return (param) => async (dispatch) => {
+//     const id = idSelector(param);
+//     dispatch({ type, meta: id });
+//     try {
+//       const payload = await promiseCreator(param);
+//       dispatch({ type: SUCCESS, payload, meta: id });
+//     } catch (e) {
+//       dispatch({ type: ERROR, payload: e, error: true, meta: id });
+//     }
+//   };
+// };
 
 export const handleAsyncActions = (type, key, keepData) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
